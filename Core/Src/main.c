@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "i2c_slave.h"
 #include "data.h"
+#include "led.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -141,7 +142,7 @@ int main(void)
   I2C_Slave_Init(&hi2c1);
 
   // 簡化的ADC初始化
-  HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_SET);  // 啟動指示
+  // LedSet(LED_1, GPIO_PIN_SET);  // 啟動指示
   
   // 暫時禁用DMA中斷進行測試
   HAL_NVIC_DisableIRQ(DMA1_Channel1_IRQn);
@@ -154,8 +155,8 @@ int main(void)
   adcInit();
   HAL_TIM_Base_Start(&htim6);  // 啟動定時器6
 
-  // 系統就緒
-  HAL_GPIO_WritePin(GPIOB, LED7_Pin, GPIO_PIN_SET);
+  // // 系統就緒
+  LedSet(LED_4, GPIO_PIN_SET);
   
   /* USER CODE END 2 */
 
@@ -166,10 +167,11 @@ int main(void)
     // arrangeData();
     dataProcess();
     updateTxBuffer(voltBuffer, VOLT_BUFFER_SIZE);
-    
+
     // 運行指示
-    HAL_GPIO_TogglePin(GPIOA, LED1_Pin);
+    LedToggle(LED_5);
     HAL_Delay(10);
+      
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -227,7 +229,7 @@ void SystemClock_Config(void)
 // void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 //   // 這個回調函數在ADC轉換完成時被呼叫
 //   // 可以在這裡處理ADC數據或設定旗標
-//   HAL_GPIO_WritePin(GPIOB, LED3_Pin, GPIO_PIN_SET);
+//   LedSet(LED_3, GPIO_PIN_SET);
 // }
 /* USER CODE END 4 */
 
@@ -241,13 +243,13 @@ void Error_Handler(void)
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
   while (1) {
-    HAL_GPIO_WritePin(GPIOB, LED5_Pin, GPIO_PIN_SET);
+    LedSet(LED_5, GPIO_PIN_SET);
     HAL_Delay(100);
-    HAL_GPIO_WritePin(GPIOB, LED5_Pin, GPIO_PIN_RESET);
+    LedSet(LED_5, GPIO_PIN_RESET);
     HAL_Delay(100);
-    HAL_GPIO_WritePin(GPIOB, LED5_Pin, GPIO_PIN_SET);
+    LedSet(LED_5, GPIO_PIN_SET);
     HAL_Delay(100);
-    HAL_GPIO_WritePin(GPIOB, LED5_Pin, GPIO_PIN_RESET);
+    LedSet(LED_5, GPIO_PIN_RESET);
     HAL_Delay(100);
   }
   /* USER CODE END Error_Handler_Debug */

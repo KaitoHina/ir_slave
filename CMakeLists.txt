@@ -48,6 +48,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/main.c
     Core/Src/data.c
     Core/Src/i2c_slave.c
+    Core/Src/led.c
 )
 
 # Add include paths

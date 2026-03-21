@@ -1,6 +1,7 @@
 #include "data.h"
 #include "stm32g4xx_hal.h"
 #include "stm32g4xx_hal_adc.h"
+#include "led.h"
 
 uint8_t voltBuffer[VOLT_BUFFER_SIZE] = {0};
 
@@ -16,15 +17,15 @@ void adcInit() {
   
   // ADC1 DMA啟動
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc1_value, 4);
-  HAL_GPIO_WritePin(GPIOB, LED4_Pin, GPIO_PIN_SET);
+  // LedSet(LED_4, GPIO_PIN_SET);
 
   // ADC2 DMA啟動
   HAL_ADC_Start_DMA(&hadc2, (uint32_t*)adc2_value, 3);
-  HAL_GPIO_WritePin(GPIOB, LED5_Pin, GPIO_PIN_SET);
+  // LedSet(LED_5, GPIO_PIN_SET);
   
   // ADC5 DMA啟動
   HAL_ADC_Start_DMA(&hadc5, (uint32_t*)adc5_value, 1);
-  HAL_GPIO_WritePin(GPIOB, LED6_Pin, GPIO_PIN_SET);
+  // LedSet(LED_6, GPIO_PIN_SET);
 }
 
 void dataSave() {
